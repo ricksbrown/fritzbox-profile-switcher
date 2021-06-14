@@ -45,7 +45,7 @@ async function applyProfile(page, devNameProfile) {
 	await page.click(editButton);
 	await page.waitForSelector(DevicePage.profileSelect);
 	await selectProfile(page, profileName);
-	await page.waitFor(1000);
+	await page.waitForTimeout(1000);  // Is this even necessary? Just in case events are triggered I guess.
 	await page.click(DevicePage.apply);
 	await page.waitForSelector(editButton);
 }
@@ -59,9 +59,13 @@ async function applyProfile(page, devNameProfile) {
 async function selectProfile(page, profile) {
 	console.log(`Selecting profile by text: ${profile}`);
 	const profileOpt = (await page.$x(`//*[@name = "kisi_profile"]/option[text() = "${profile}"]`))[0];
-	const profileVal = await (await profileOpt.getProperty('value')).jsonValue();
-	console.log(`Selecting profile by value: ${profileVal}`);
-	return await page.select(DevicePage.profileSelect, profileVal);  // Standard, KidsDevices
+	if (profileOpt) {
+		const profileVal = await (await profileOpt.getProperty('value')).jsonValue();
+		console.log(`Selecting profile by value: ${profileVal}`);
+		await page.select(DevicePage.profileSelect, profileVal);  // Standard, KidsDevices
+	} else {
+		console.error(`Could not find option with text "${profile}"`)
+	}
 }
 
 /**
@@ -100,7 +104,7 @@ async function login(page, password) {
  * @returns {string} The cleartext string
  */
 function fromBase64(s) {
-	let buff = new Buffer(s, 'base64');
+	let buff = Buffer.from(s, 'base64');
 	let text = buff.toString('ascii');
 	return text;
 }
