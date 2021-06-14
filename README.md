@@ -28,7 +28,17 @@ optional arguments:
 
 ```bash
 # Sets the the device "Sarah-Desktop" to profile named "KidsDevices"
-node fbps.js --password U2NyaXB0S2lkZGll 'Sarah-Desktop=KidsDevices'
+./fbps.js --password U2NyaXB0S2lkZGll 'Sarah-Desktop=KidsDevices'
+```
+
+## Schedule
+
+I run this from cron:
+
+```
+30 16 * * MON-FRI /path/to/fritzbox-profile-switcher/fbps.js --password U2NyaXB0S2lkZGll 'Sarah-Desktop=Standard'
+00 11 * * SAT-SUN /path/to/fritzbox-profile-switcher/fbps.js --password U2NyaXB0S2lkZGll 'Sarah-Desktop=Standard'
+00 2 * * * /path/to/fritzbox-profile-switcher/fbps.js --password U2NyaXB0S2lkZGll 'Sarah-Desktop=KidsDevices'
 ```
 
 ## Note
