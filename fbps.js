@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const puppeteer = require('puppeteer');
 const minimist = require('minimist');
+const pageTimeout = 180000;  // this can be longer than a minute if you have a lot of devices registered and the one you are editing is currently offline
 
 const LoginPage = {
 	password: 'input#uiPass',
@@ -80,7 +81,7 @@ async function open(browser, baseUrl) {
 	console.log(`Opening ${url}`);
 	const page = await browser.newPage();
 	await page.goto(url);
-	page.setDefaultTimeout(60000)
+	page.setDefaultTimeout(pageTimeout)
 	return page;
 }
 
