@@ -42,6 +42,6 @@ I run this from cron:
 ```
 
 ## Note
- - The official Python API does allow you to do this.
+ - The official Python API does not allow you to do this.
  - Nor does the unofficial API.
  - Other options I found were non-trivial to update to new FritzBox firmware.
